@@ -1,0 +1,19 @@
+{
+    "name": "dawn-frost/dawn-inspect",
+    "description": "常用PHP-API验证函数",
+    "type": "library",
+    "license": "MIT",
+    "authors": [{
+        "name": "huxiaoyan",
+        "email": "ava-pear@hotmail.com"
+    }],
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^4.6|^5.0|^7.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "DawnFrost\\Inspect\\": "src/"
+        }
+    }
+}
