@@ -7,7 +7,7 @@ class Validator
     // 手机号验证
     public static function isMobile(string $value): bool
     {
-        return (bool) preg_match('/^1[3456789]\d{9}$/', $value);
+        return (bool) preg_match('/^1[3-9]\d{9}$/', $value);
     }
 
     // 最大长度验证
