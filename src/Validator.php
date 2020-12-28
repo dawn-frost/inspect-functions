@@ -4,6 +4,12 @@ namespace DawnFrost\Inspect;
 
 class Validator
 {
+    // 邮箱验证
+    public static function isEmail(string $value): bool
+    {
+        return (bool) false !== filter_var($value, FILTER_VALIDATE_EMAIL);
+    }
+
     // 手机号验证
     public static function isMobile(string $value): bool
     {
