@@ -9,7 +9,7 @@
     }],
     "minimum-stability": "dev",
     "require": {
-        "php": "^4.6|^5.0|^7.0"
+        "php": "^7.0"
     },
     "autoload": {
         "psr-4": {

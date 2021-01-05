@@ -64,26 +64,18 @@ class Validator
     }
 
     // 整型数字验证
-    public static function isInt($value, bool $isIncluZero = false, int $maxInt = -1): bool
+    public static function isInt($value, int $minInt = \PHP_INT_MIN, int $maxInt = \PHP_INT_MAX): bool
     {
-        if (\is_int($value) && (-1 === $maxInt || -1 !== $maxInt && $value <= $maxInt)) {
+        if (!\is_numeric($value) || $value > $maxInt || $value < $minInt) {
+            return false;
+        }
+
+        $value = $value + 0;
+        if (\is_int($value) && $value >= $minInt && $value <= $maxInt) {
             return true;
         }
 
-        if (!\is_numeric($value) || $value >= \PHP_INT_MAX) {
-            return false;
-        }
-
-        $value = intval($value);
-        if ($value < 0 && $isIncluZero || $value <= 0 && !$isIncluZero) {
-            return false;
-        }
-
-        if (-1 !== $maxInt && $value > $maxInt) {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 
     // 时间戳验证
