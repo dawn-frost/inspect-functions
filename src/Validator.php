@@ -19,7 +19,7 @@ class Validator
     // 最大长度验证
     public static function maxCharLength(string $value, int $maxLength = 10): bool
     {
-        return (bool) mb_strlen($value, 'utf-8') > $maxLength;
+        return (bool) mb_strlen($value, 'utf-8') <= $maxLength;
     }
 
     // 长度验证
@@ -70,7 +70,7 @@ class Validator
             return false;
         }
 
-        $value = $value + 0;
+        $value = $value + 0; // 转义为 int 或 float 类型
         if (\is_int($value) && $value >= $minInt && $value <= $maxInt) {
             return true;
         }
@@ -81,7 +81,7 @@ class Validator
     // 时间戳验证
     public static function isTimestamp($timestamp): bool
     {
-        if (\strval(strtotime(date('Y-m-d H:i:s', $timestamp))) === $timestamp) {
+        if ((string) strtotime(date('Y-m-d H:i:s', $timestamp)) === $timestamp) {
             return true;
         }
 
@@ -91,7 +91,7 @@ class Validator
     // 日期验证
     public static function isDate(string $date, string $format = 'Y-m-d')
     {
-        if (\strval(date($format, strtotime($date))) === $date) {
+        if ((string) date($format, strtotime($date)) === $date) {
             return true;
         }
 
