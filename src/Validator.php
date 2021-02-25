@@ -10,6 +10,11 @@ class Validator
         return (bool) false !== filter_var($value, FILTER_VALIDATE_EMAIL);
     }
 
+    public static function isUrl(string $value): bool
+    {
+        return (bool) false !== filter_var($value, FILTER_VALIDATE_URL);
+    }
+
     // 手机号验证
     public static function isMobile(string $value): bool
     {
