@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace DawnFrost\Inspect;
 
 class Validator
@@ -43,7 +45,7 @@ class Validator
     {
         $jData = json_decode($string, true);
 
-        if (JSON_ERROR_NONE == json_last_error() && is_array($jData) && !empty($jData)) {
+        if (JSON_ERROR_NONE === json_last_error() && \is_array($jData) && !empty($jData)) {
             return ['isJson' => true, 'data' => $jData];
         }
 
@@ -69,9 +71,9 @@ class Validator
     }
 
     // 整型数字验证
-    public static function isInt($value, int $minInt = \PHP_INT_MIN, int $maxInt = \PHP_INT_MAX): bool
+    public static function isInt($value, int $minInt = PHP_INT_MIN, int $maxInt = PHP_INT_MAX): bool
     {
-        if (!\is_numeric($value) || $value > $maxInt || $value < $minInt) {
+        if (!is_numeric($value) || $value > $maxInt || $value < $minInt) {
             return false;
         }
 
@@ -83,10 +85,25 @@ class Validator
         return false;
     }
 
-    // 时间戳验证
-    public static function isTimestamp($timestamp): bool
+    // 整型数字验证
+    public static function isFloat($value, string $min = '-1000000.00', string $max = '1000000.00', int $scale = 2): bool
     {
-        if ((string) strtotime(date('Y-m-d H:i:s', $timestamp)) === $timestamp) {
+        if (!is_numeric($value) || 1 === bccomp($value, $max, $scale) || -1 === bccomp($value, $min, $scale)) {
+            return false;
+        }
+
+        $value = $value + 0; // 转义为 int 或 float 类型
+        if (\is_float($value)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    // 时间戳验证
+    public static function isTimestamp(int $timestamp): bool
+    {
+        if (strtotime(date('Y-m-d H:i:s', $timestamp)) === $timestamp) {
             return true;
         }
 
@@ -94,7 +111,17 @@ class Validator
     }
 
     // 日期验证
-    public static function isDate(string $date, string $format = 'Y-m-d')
+    public static function isDate(string $date, string $format = 'Y-m-d'): bool
+    {
+        if ((string) date($format, strtotime($date)) === $date) {
+            return true;
+        }
+
+        return false;
+    }
+
+    // 日期验证
+    public static function isDateTime(string $date, string $format = 'Y-m-d H:i:s'): bool
     {
         if ((string) date($format, strtotime($date)) === $date) {
             return true;
